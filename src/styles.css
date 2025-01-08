@@ -4,3 +4,20 @@ html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+input {
+    font-size: 1rem;
+}
+
+button {
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #e1e1e1;
+    border-radius: 12px;
+    padding: 10px;
+}

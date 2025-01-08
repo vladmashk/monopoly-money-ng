@@ -1,0 +1,10 @@
+@if (errorMessage) {
+    <div class="errorMessage">{{errorMessage}}</div>
+}
+<label>
+    Name
+    <input [(ngModel)]="enteredName" (keydown.enter)="start()" maxlength="20">
+</label>
+<div style="display: flex; justify-content: flex-end">
+    <button (click)="start()">Start</button>
+</div>

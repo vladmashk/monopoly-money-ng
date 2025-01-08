@@ -1,0 +1,15 @@
+:host {
+    margin-top: 30vh;
+    gap: 10px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.errorMessage {
+    text-align: center;
+    color: red;
+}

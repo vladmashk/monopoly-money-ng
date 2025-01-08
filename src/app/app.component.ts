@@ -1,12 +1,22 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component, inject} from '@angular/core';
+import {EntryComponent} from "./entry/entry.component";
+import {MainComponent} from "./main/main.component";
+import {ServerConnector} from "./ServerConnector";
+import {NgClass} from "@angular/common";
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [EntryComponent, MainComponent, NgClass],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'monopoly-money-ng';
+
+    private serverConnector = inject(ServerConnector);
+
+    username?: string;
+
+    get connected(): boolean {
+        return this.serverConnector.connected;
+    }
 }

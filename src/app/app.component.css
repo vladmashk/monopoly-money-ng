@@ -1,0 +1,21 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 500px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.connectionIndicator {
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.connectionIndicator.connected {
+    background-color: lightgreen;
+}
+
+.connectionIndicator.disconnected {
+    background-color: indianred;
+}

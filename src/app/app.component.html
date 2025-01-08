@@ -1,1 +1,11 @@
-App
+<div style="display: flex; justify-content: center">
+    <div [ngClass]="{connectionIndicator: true, connected: connected, disconnected: !connected}">
+        {{connected ? "Connected" : "Disconnected"}}
+    </div>
+</div>
+
+@if (username) {
+    <app-main/>
+} @else {
+    <app-entry (nameEntered)="username = $event"/>
+}
