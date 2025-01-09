@@ -1,0 +1,3 @@
+@for (option of options; track option.value) {
+    <app-chip [text]="option.text" [value]="option.value" [selected]="option.value === selectedOption" (click)="selectOption(option.value)"/>
+}

@@ -1,0 +1,16 @@
+:host {
+    background-color: #e3e3e3;
+    border-radius: 12px;
+    padding: 5px 10px;
+    width: fit-content;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.5s;
+}
+
+:host:hover {
+    background-color: #dadada;
+}
+
+:host.selected {
+    box-shadow: 0 0 0 2px deepskyblue;
+}

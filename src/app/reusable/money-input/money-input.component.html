@@ -1,0 +1,6 @@
+<label [htmlFor]="id">{{label}}</label>
+<div class="moneyInputContainer">
+    <input [id]="id" inputmode="numeric" placeholder="Enter amount here" [value]="value()" (input)="onChange($event)">
+    <button class="kButton" (click)="x1k()">× 1k</button>
+    <button class="mButton" (click)="x1M()">× 1M</button>
+</div>

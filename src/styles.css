@@ -5,6 +5,10 @@ html {
     -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+    background-color: #f3f7fd;
+}
+
 input {
     font-size: 1rem;
 }
@@ -17,7 +21,30 @@ button {
 .card {
     display: flex;
     flex-direction: column;
-    background-color: #e1e1e1;
+    gap: 10px;
+    background-color: white;
     border-radius: 12px;
     padding: 10px;
+    box-shadow: 0 0 10px 0 #d9d9d9;
+}
+
+.card .title {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.errorMessage {
+    color: red;
+}
+
+.cardMainButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.separator {
+    height: 1px;
+    background-color: #c9c9c9;
 }
