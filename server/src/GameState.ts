@@ -1,29 +1,35 @@
 import {Player, Transaction} from "../../src/types";
 import {BANK_USERNAME} from "../../src/constants";
 import {startingBalance} from "../../config.json";
+import * as fs from "node:fs";
+import * as fsp from "node:fs/promises";
+
+const gameStateFilename = "gameState.json";
 
 export default class GameState {
 
     private transactions: Transaction[] = []; // in chronological order
 
-    private players: Map<string, Player> = new Map(); // TODO: construct players using transactions in constructor
+    private players: Map<string, Player> = new Map();
+
+    constructor() {
+        this.loadTransactions();
+        for (const transaction of this.transactions) {
+            this.updatePlayersUsingTransaction(transaction);
+        }
+    }
 
     playerExists(username: string) {
         return this.players.has(username) || this.transactions.some(t => t.sender === username || t.recipient === username);
     }
 
     addPlayer(name: string) {
-        const initialBalance = startingBalance;
-
-        this.transactions.push({
+        this.addTransaction({
             sender: BANK_USERNAME,
             recipient: name,
-            amount: initialBalance,
+            amount: startingBalance,
             timestamp: Date.now()
         });
-
-        this.players.set(name, {name, balance: initialBalance});
-        this.transactionsUpdated(this.getTransactions(), this.getPlayers());
     }
 
     getBalanceOf(username: string): number {
@@ -55,18 +61,10 @@ export default class GameState {
     addTransaction(transaction: Transaction) {
         this.transactions.push(transaction);
 
-        if (transaction.sender !== BANK_USERNAME && this.players.has(transaction.sender)) {
-            // case where sender not present in players is ignored on purpose
-            this.players.get(transaction.sender)!.balance -= transaction.amount;
-        }
-        if (transaction.recipient !== BANK_USERNAME) {
-            if (this.players.has(transaction.recipient)) {
-                this.players.get(transaction.recipient)!.balance += transaction.amount;
-            } else {
-                this.players.set(transaction.recipient, {name: transaction.recipient, balance: transaction.amount});
-            }
-        }
+        this.updatePlayersUsingTransaction(transaction);
+
         this.transactionsUpdated(this.getTransactions(), this.getPlayers());
+        this.storeTransactions();
     }
 
     transactionsUpdated(transactions: Transaction[], players: Player[]) {}
@@ -77,5 +75,30 @@ export default class GameState {
 
     getPlayers(): Player[] {
         return [...this.players.values()];
+    }
+
+    private updatePlayersUsingTransaction(transaction: Transaction) {
+        if (transaction.sender !== BANK_USERNAME) {
+            if (!this.players.has(transaction.sender)) {
+                this.players.set(transaction.sender, {name: transaction.sender, balance: -transaction.amount});
+            } else {
+                this.players.get(transaction.sender)!.balance -= transaction.amount;
+            }
+        }
+        if (transaction.recipient !== BANK_USERNAME) {
+            if (!this.players.has(transaction.recipient)) {
+                this.players.set(transaction.recipient, {name: transaction.recipient, balance: transaction.amount});
+            } else {
+                this.players.get(transaction.recipient)!.balance += transaction.amount;
+            }
+        }
+    }
+
+    private storeTransactions() {
+        void fsp.writeFile(gameStateFilename, JSON.stringify(this.transactions, null, 2));
+    }
+
+    private loadTransactions() {
+        this.transactions = JSON.parse(fs.readFileSync(gameStateFilename).toString());
     }
 }

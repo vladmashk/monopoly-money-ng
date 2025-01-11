@@ -35,10 +35,6 @@ export class TransferToComponent implements OnInit {
 
     errorMessage?: string;
 
-    setSelectedPlayer(selectedPlayer: string | undefined) {
-        this.selectedPlayer = selectedPlayer;
-    }
-
     transfer() {
         if (!this.selectedPlayer || this.transferAmount === 0) return;
         this.errorMessage = undefined;

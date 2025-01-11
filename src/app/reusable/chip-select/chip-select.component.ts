@@ -13,9 +13,9 @@ export class ChipSelectComponent {
 
     @Input() options: {text?: string, value: string}[] = [];
 
-    @Output() select = new EventEmitter<string | undefined>();
+    @Input() selectedOption?: string;
 
-    protected selectedOption?: string;
+    @Output() select = new EventEmitter<string | undefined>();
 
     selectOption(option: string) {
         if (option === this.selectedOption) {
