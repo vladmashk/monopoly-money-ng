@@ -1,7 +1,7 @@
 <div class="title">Transfer money to</div>
 <app-chip-select [options]="players" (select)="selectedPlayer = $event"/>
 @if (selectedPlayer) {
-    <app-money-input id="transferToInput" (amountChange)="transferAmount = $event" style="margin-top: 10px"/>
+    <app-money-input (amountChange)="transferAmount = $event" style="margin-top: 10px"/>
     <div class="cardMainButtonContainer">
         @if (errorMessage) {
             <div class="errorMessage">{{errorMessage}}</div>

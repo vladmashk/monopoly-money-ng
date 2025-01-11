@@ -1,5 +1,6 @@
 import {Player, Transaction} from "../../src/types";
 import {BANK_USERNAME} from "../../src/constants";
+import {startingBalance} from "../../config.json";
 
 export default class GameState {
 
@@ -13,7 +14,7 @@ export default class GameState {
     }
 
     addPlayer(name: string) {
-        const initialBalance = 2000; // TODO: get from config
+        const initialBalance = startingBalance;
 
         this.transactions.push({
             sender: BANK_USERNAME,

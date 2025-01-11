@@ -11,15 +11,18 @@ import {FormsModule} from "@angular/forms";
 })
 export class MoneyInputComponent {
 
-    @Input({required: true}) id!: string;
+    // First, this was an @Input(), but chrome complained about the label for mismatching for some reason
+    protected id = Math.random().toString();
 
     @Input() label = "Amount";
 
+    @Input() amount = signal(0);
+
     @Output() amountChange = new EventEmitter<number>();
 
-    value = computed(() => this.amount() === 0 ? "" : new Intl.NumberFormat("fr-FR").format(this.amount()).replace(",", "."));
-
-    amount = signal(0);
+    protected formattedAmount = computed(
+        () => this.amount() === 0 ? "" : new Intl.NumberFormat("fr-FR").format(this.amount()).replace(",", ".")
+    );
 
     constructor() {
         effect(() => {
@@ -29,12 +32,12 @@ export class MoneyInputComponent {
 
     onChange(event: Event) {
         const value = (event.target as HTMLInputElement).value;
-        const match = /\d+[.,]?\d*/.exec(value.replaceAll(" ", ""));
+        const match = /\d+[.,]?\d*/.exec(value.replaceAll(" ", "")); // fr-FR format uses NNBSPs for thousands separators
         if (!match) {
             this.amount.set(0);
             return;
         }
-        this.amount.set(parseFloat(match[0]));
+        this.amount.set(parseFloat(match[0].replace(",", ".")));
     }
 
     x1k() {

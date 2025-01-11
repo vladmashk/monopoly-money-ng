@@ -1,12 +1,12 @@
 <div class="title">Receive from the bank</div>
-<app-money-input id="receiveFromBankInput" (amountChange)="receiveAmount = $event"/>
+<app-money-input [amount]="receiveAmount" (amountChange)="receiveAmount.set($event)"/>
 <div class="cardMainButtonContainer">
-    <button>Receive</button>
+    <button (click)="receive()">Receive</button>
 </div>
 <div class="separator"></div>
 <div style="display: flex; align-items: center; gap: 10px">
-    <button>Pass GO</button>
+    <button (click)="passGo()">Pass GO</button>
     <div style="color: gray; font-size: 0.9em">
-        Receive TODO
+        Receive {{passGoRewardString}}
     </div>
 </div>
