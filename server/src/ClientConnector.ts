@@ -1,4 +1,6 @@
 import {Server} from "socket.io";
+import express from "express";
+import {createServer} from "http";
 import {
     ClientToServerEvent,
     ClientToServerPayload,
@@ -13,11 +15,22 @@ export default class ClientConnector {
 
     private io;
 
+    private httpServer;
+
     // for specific types, see addEventHandler method
     private eventHandlers: Map<string, Function> = new Map();
 
     constructor() {
-        this.io = new Server({
+        const prod = process.env.NODE_ENV === "production";
+        const app = express();
+        this.httpServer = createServer(app);
+
+        if (prod) {
+            console.log("Server in production mode");
+            app.use(express.static("dist/monopoly-money-ng/browser"));
+        }
+
+        this.io = new Server(this.httpServer, {
             cors: {origin: "*"}
         });
 
@@ -32,7 +45,7 @@ export default class ClientConnector {
     }
 
     startListening() {
-        this.io.listen(SOCKET_SERVER_PORT);
+        this.httpServer.listen(SOCKET_SERVER_PORT);
     }
 
     sendEventToAll<E extends ServerToClientEvent>(event: E, payload: ServerToClientPayload<E>) {
