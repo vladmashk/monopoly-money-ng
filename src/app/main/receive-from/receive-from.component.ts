@@ -1,6 +1,7 @@
 import {Component, signal} from '@angular/core';
 import {MoneyInputComponent} from "../../reusable/money-input/money-input.component";
 import {passGoReward} from "../../../../config.json";
+import {formatAmount} from "../../../util";
 
 @Component({
     selector: 'app-receive-from',
@@ -17,7 +18,7 @@ export class ReceiveFromComponent {
 
     receiveAmount = signal(0);
 
-    protected readonly passGoRewardString = new Intl.NumberFormat("fr-FR").format(passGoReward);
+    protected readonly passGoRewardString = formatAmount(passGoReward);
 
     receive() {
         this.sendTransaction(this.receiveAmount());

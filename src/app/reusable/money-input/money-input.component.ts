@@ -1,5 +1,6 @@
 import {Component, computed, effect, EventEmitter, Input, Output, signal} from '@angular/core';
 import {FormsModule} from "@angular/forms";
+import {formatAmount} from "../../../util";
 
 @Component({
     selector: 'app-money-input',
@@ -21,7 +22,7 @@ export class MoneyInputComponent {
     @Output() amountChange = new EventEmitter<number>();
 
     protected formattedAmount = computed(
-        () => this.amount() === 0 ? "" : new Intl.NumberFormat("fr-FR").format(this.amount()).replace(",", ".")
+        () => this.amount() === 0 ? "" : formatAmount(this.amount()).replace(",", ".")
     );
 
     constructor() {

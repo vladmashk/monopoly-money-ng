@@ -1,0 +1,22 @@
+<div class="title">Transactions</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Time</th>
+        <th class="nameCell">From</th>
+        <th  class="nameCell">To</th>
+        <th class="amountCell">Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+        @for (transaction of transactions; track transaction.timestamp) {
+            <tr [class.ownRevenueRow]="transaction.recipient === username" [class.ownCostRow]="transaction.sender === username">
+                <td class="timeCell">{{relativeTime(transaction.timestamp)}}</td>
+                <td>{{transaction.sender}}</td>
+                <td>{{transaction.recipient}}</td>
+                <td class="amountCell">{{formatAmount(transaction.amount)}}</td>
+            </tr>
+        }
+    </tbody>
+</table>

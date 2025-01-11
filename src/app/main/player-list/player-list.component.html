@@ -1,0 +1,11 @@
+<div class="title">Players</div>
+
+<table>
+    <tbody>
+        @for (player of players; track player.name) {
+            <tr [class.ownRow]="player.name === username">
+                <td class="nameCell">{{player.name}}</td><td>{{formatAmount(player.balance)}}</td>
+            </tr>
+        }
+    </tbody>
+</table>

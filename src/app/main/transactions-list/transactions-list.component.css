@@ -1,0 +1,33 @@
+table {
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+}
+
+tr {
+    height: 2em;
+}
+
+tr:not(:last-child) {
+    border-bottom: 1px solid #c9c9c9;
+}
+
+
+.amountCell {
+    text-align: right;
+}
+
+.timeCell {
+    font-size: 0.9em;
+    color: gray;
+}
+
+.ownRevenueRow {
+    background-color: rgba(0, 255, 0, 0.15);
+}
+
+.ownCostRow {
+    background-color: rgba(255, 0, 0, 0.15);
+}

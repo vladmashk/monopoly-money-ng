@@ -10,10 +10,12 @@ body {
 }
 
 input {
+    font-family: inherit;
     font-size: 1rem;
 }
 
 button {
+    font-family: inherit;
     font-size: 1rem;
     cursor: pointer;
 }
@@ -29,7 +31,7 @@ button {
 }
 
 .card .title {
-    font-size: 1.1em;
+    font-size: 1.2em;
     font-weight: 500;
 }
 
