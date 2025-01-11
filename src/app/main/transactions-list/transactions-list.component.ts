@@ -2,10 +2,13 @@ import {Component, inject, Input, OnInit} from '@angular/core';
 import {Transaction} from "../../../types";
 import {formatAmount, relativeTime} from "../../../util";
 import {ServerConnector} from "../../ServerConnector";
+import {TimeCellComponent} from "./time-cell/time-cell.component";
 
 @Component({
     selector: 'app-transactions-list',
-    imports: [],
+    imports: [
+        TimeCellComponent
+    ],
     templateUrl: './transactions-list.component.html',
     styleUrl: './transactions-list.component.css',
     host: {

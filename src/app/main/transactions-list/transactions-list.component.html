@@ -12,7 +12,7 @@
     <tbody>
         @for (transaction of transactions; track transaction.timestamp) {
             <tr [class.ownRevenueRow]="transaction.recipient === username" [class.ownCostRow]="transaction.sender === username">
-                <td class="timeCell">{{relativeTime(transaction.timestamp)}}</td>
+                <td class="timeCell"><app-time-cell [timestamp]="transaction.timestamp"/></td>
                 <td>{{transaction.sender}}</td>
                 <td>{{transaction.recipient}}</td>
                 <td class="amountCell">{{formatAmount(transaction.amount)}}</td>
