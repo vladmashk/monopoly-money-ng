@@ -4,8 +4,8 @@
     </div>
 </div>
 
-@if (!username) { <!-- TODO: invert back -->
-    <app-main username="alice"/> <!-- TODO: set to username property -->
+@if (username) {
+    <app-main [username]="username"/>
 } @else {
     <app-entry (nameEntered)="username = $event"/>
 }

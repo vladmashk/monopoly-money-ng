@@ -23,7 +23,7 @@ export class EntryComponent {
 
     errorMessage?: string;
 
-    async start() {
+    async enter() {
         if (this.enteredName === "") return;
         this.errorMessage = undefined;
         const name = this.enteredName.trim();

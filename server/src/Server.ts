@@ -20,7 +20,7 @@ class Server {
                     return {ok: false, error: UsernameError.NOT_ALLOWED};
                 }
                 if (this.gameState.playerExists(name)) {
-                    return {ok: false, error: UsernameError.ALREADY_EXISTS};
+                    return {ok: true};
                 }
                 this.gameState.addPlayer(name);
                 return {ok: true};
@@ -49,10 +49,14 @@ class Server {
                 if (this.gameState.canAddTransaction(transaction)) {
                     this.gameState.addTransaction(transaction);
                 } else {
-                    error(`Attempt to add invalid transaction: ${transaction}`);
+                    error(`Attempt to add invalid transaction: ${JSON.stringify(transaction)}`);
                 }
             }
         );
+
+        this.gameState.transactionsUpdated = (transactions, players) => {
+            this.clientConnector.sendEventToAll("TRANSACTIONS_UPDATE", {transactions, players});
+        }
 
         this.clientConnector.startListening();
         console.log("Server started");

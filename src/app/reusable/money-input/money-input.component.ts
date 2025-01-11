@@ -1,4 +1,12 @@
-import {Component, computed, effect, EventEmitter, Input, Output, signal} from '@angular/core';
+import {
+    Component,
+    computed,
+    effect,
+    EventEmitter,
+    Input,
+    Output,
+    signal,
+} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {formatAmount} from "../../../util";
 
@@ -16,6 +24,8 @@ export class MoneyInputComponent {
     protected id = Math.random().toString();
 
     @Input() label = "Amount";
+
+    @Input() autoFocus = false;
 
     @Input() amount = signal(0);
 

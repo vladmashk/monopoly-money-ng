@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {Player} from "../../../types";
 import {formatAmount} from "../../../util";
+import {ServerConnector} from "../../ServerConnector";
 
 @Component({
     selector: 'app-player-list',
@@ -11,15 +12,29 @@ import {formatAmount} from "../../../util";
         class: "card"
     }
 })
-export class PlayerListComponent { // TODO: highlight own player row
+export class PlayerListComponent implements OnInit {
+
+    private serverConnector = inject(ServerConnector);
 
     @Input({required: true}) username!: string;
 
-    players: Player[] = [
-        {name: "alice", balance: 1200},
-        {name: "bob", balance: 43800},
-        {name: "charlie", balance: 350}
-    ].sort((a, b) => b.balance - a.balance);
+    players: Player[] = [];
 
     protected readonly formatAmount = formatAmount;
+
+    setPlayers(players: Player[]) {
+        this.players = players.sort((a, b) => b.balance - a.balance);
+    }
+
+    async ngOnInit() {
+        this.setPlayers(await this.serverConnector.sendEvent("GET_PLAYERS"));
+
+        this.serverConnector.onConnect(async () => {
+            this.setPlayers(await this.serverConnector.sendEvent("GET_PLAYERS"));
+        });
+
+        this.serverConnector.addEventHandler("TRANSACTIONS_UPDATE", ({players}) => {
+            this.setPlayers(players);
+        });
+    }
 }

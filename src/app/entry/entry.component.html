@@ -3,8 +3,8 @@
 }
 <label>
     Name
-    <input [(ngModel)]="enteredName" (keydown.enter)="start()" maxlength="20">
+    <input [(ngModel)]="enteredName" (keydown.enter)="enter()" maxlength="20">
 </label>
 <div style="display: flex; justify-content: flex-end">
-    <button (click)="start()">Start</button>
+    <button (click)="enter()">Enter</button>
 </div>

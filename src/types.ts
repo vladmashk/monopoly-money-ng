@@ -11,8 +11,8 @@ export type Result<T, E> =
 interface ClientToServerEvents {
     NEW_PLAYER: (name: string) => Ack<UsernameError>,
     GET_BALANCE: (name: string) => number,
-    GET_PLAYERS: (payload: void) => Player[],
-    GET_TRANSACTIONS: (payload: void) => Transaction[]
+    GET_PLAYERS: () => Player[],
+    GET_TRANSACTIONS: () => Transaction[]
     ADD_TRANSACTION: (transaction: Transaction) => void,
 }
 
@@ -24,6 +24,7 @@ export type ClientToServerResponse<E extends ClientToServerEvent> = ReturnType<C
 
 
 export interface ServerToClientEvents {
+    TRANSACTIONS_UPDATE: (payload: {transactions: Transaction[], players: Player[]}) => void,
     NOTIFICATION: (notification: "TODO") => void // TODO
 }
 
@@ -50,7 +51,6 @@ export interface Player {
 // Error types
 
 export enum UsernameError {
-    ALREADY_EXISTS = "There is already a player with this name",
     INVALID = "The name you have chosen is invalid",
     NOT_ALLOWED = "The name you have chosen is not allowed"
 }

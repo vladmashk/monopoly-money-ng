@@ -6,8 +6,7 @@ export default class GameState {
 
     private transactions: Transaction[] = []; // in chronological order
 
-    // for quick retrieval; transactions is ground truth
-    private players: Map<string, Player> = new Map();
+    private players: Map<string, Player> = new Map(); // TODO: construct players using transactions in constructor
 
     playerExists(username: string) {
         return this.players.has(username) || this.transactions.some(t => t.sender === username || t.recipient === username);
@@ -24,6 +23,7 @@ export default class GameState {
         });
 
         this.players.set(name, {name, balance: initialBalance});
+        this.transactionsUpdated(this.getTransactions(), this.getPlayers());
     }
 
     getBalanceOf(username: string): number {
@@ -31,18 +31,24 @@ export default class GameState {
             return this.players.get(username)!.balance;
         }
 
-        let money = 0;
+        let balance = 0;
         for (const transaction of this.transactions) {
             if (username === transaction.sender) {
-                money -= transaction.amount;
+                balance -= transaction.amount;
             } else if (username === transaction.recipient) {
-                money += transaction.amount;
+                balance += transaction.amount;
             }
         }
-        return money;
+
+        this.players.set(username, {name: username, balance});
+
+        return balance;
     }
 
     canAddTransaction(transaction: Transaction) {
+        if (transaction.sender === BANK_USERNAME) {
+            return true;
+        }
         return this.getBalanceOf(transaction.sender) >= transaction.amount;
     }
 
@@ -60,7 +66,10 @@ export default class GameState {
                 this.players.set(transaction.recipient, {name: transaction.recipient, balance: transaction.amount});
             }
         }
+        this.transactionsUpdated(this.getTransactions(), this.getPlayers());
     }
+
+    transactionsUpdated(transactions: Transaction[], players: Player[]) {}
 
     getTransactions(): Transaction[] {
         return [...this.transactions];

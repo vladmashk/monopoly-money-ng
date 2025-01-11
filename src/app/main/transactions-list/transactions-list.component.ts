@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {Transaction} from "../../../types";
-import {BANK_USERNAME} from "../../../constants";
 import {formatAmount, relativeTime} from "../../../util";
+import {ServerConnector} from "../../ServerConnector";
 
 @Component({
     selector: 'app-transactions-list',
@@ -12,19 +12,30 @@ import {formatAmount, relativeTime} from "../../../util";
         class: "card"
     }
 })
-export class TransactionsListComponent {
+export class TransactionsListComponent implements OnInit {
+
+    private serverConnector = inject(ServerConnector);
 
     @Input({required: true}) username!: string;
 
-    transactions: Transaction[] = [
-        {sender: "alice", recipient: "bob", amount: 130, timestamp: 1735608732058},
-        {sender: "alice", recipient: "charlie", amount: 560856, timestamp: 1736598732058},
-        {sender: "charlie", recipient: BANK_USERNAME, amount: 9530, timestamp: 1736607632058},
-        {sender: "bob", recipient: "alice", amount: 5, timestamp: 1736608632058},
-        {sender: BANK_USERNAME, recipient: "alice", amount: 20000000, timestamp: 1736608712058},
-        {sender: "charlie", recipient: "bob", amount: 850, timestamp: 1736609297679},
-    ].sort((a, b) => b.timestamp - a.timestamp);
+    transactions: Transaction[] = [];
 
     protected readonly formatAmount = formatAmount;
     protected readonly relativeTime = relativeTime;
+
+    setTransactions(transactions: Transaction[]) {
+        this.transactions = transactions.sort((a, b) => b.timestamp - a.timestamp);
+    }
+
+    async ngOnInit() {
+        this.setTransactions(await this.serverConnector.sendEvent("GET_TRANSACTIONS"));
+
+        this.serverConnector.onConnect(async () => {
+            this.setTransactions(await this.serverConnector.sendEvent("GET_TRANSACTIONS"));
+        });
+
+        this.serverConnector.addEventHandler("TRANSACTIONS_UPDATE", ({transactions}) => {
+            this.setTransactions(transactions);
+        });
+    }
 }

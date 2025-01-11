@@ -1,7 +1,9 @@
-import {Component, signal} from '@angular/core';
+import {Component, inject, Input, signal} from '@angular/core';
 import {MoneyInputComponent} from "../../reusable/money-input/money-input.component";
 import {passGoReward} from "../../../../config.json";
 import {formatAmount} from "../../../util";
+import {ServerConnector} from "../../ServerConnector";
+import {BANK_USERNAME} from "../../../constants";
 
 @Component({
     selector: 'app-receive-from',
@@ -15,6 +17,10 @@ import {formatAmount} from "../../../util";
     }
 })
 export class ReceiveFromComponent {
+
+    private serverConnector = inject(ServerConnector);
+
+    @Input({required: true}) username!: string;
 
     receiveAmount = signal(0);
 
@@ -30,7 +36,11 @@ export class ReceiveFromComponent {
     }
 
     sendTransaction(receiveAmount: number) {
-        // TODO
-        console.log("sending", receiveAmount)
+        void this.serverConnector.sendEvent("ADD_TRANSACTION", {
+            sender: BANK_USERNAME,
+            recipient: this.username,
+            amount: receiveAmount,
+            timestamp: Date.now()
+        });
     }
 }

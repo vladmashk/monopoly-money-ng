@@ -3,3 +3,16 @@
     flex-direction: column;
     gap: 20px;
 }
+
+.nameAndBalance {
+    text-align: center;
+}
+
+.name {
+    font-size: 1.1em;
+}
+
+.balance {
+    font-size: 1.2em;
+    font-weight: 500;
+}

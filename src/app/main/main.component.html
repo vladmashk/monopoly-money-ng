@@ -1,4 +1,8 @@
-<app-transfer-to/>
-<app-receive-from/>
+<div class="nameAndBalance">
+    <div class="name">{{username}}</div>
+    <div class="balance">{{formatAmount(userBalance)}}</div>
+</div>
+<app-transfer-to [username]="username" [userBalance]="userBalance"/>
+<app-receive-from [username]="username"/>
 <app-player-list [username]="username"/>
 <app-transactions-list [username]="username"/>
