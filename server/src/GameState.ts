@@ -99,6 +99,8 @@ export default class GameState {
     }
 
     private loadTransactions() {
-        this.transactions = JSON.parse(fs.readFileSync(gameStateFilename).toString());
+        if (fs.existsSync(gameStateFilename)) {
+            this.transactions = JSON.parse(fs.readFileSync(gameStateFilename).toString());
+        }
     }
 }
