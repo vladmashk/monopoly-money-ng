@@ -5,7 +5,7 @@
 </div>
 
 @if (username) {
-    <app-main [username]="username"/>
+    <app-main [username]="username" (logOut)="logOut()"/>
 } @else {
     <app-entry (nameEntered)="username = $event"/>
 }

@@ -3,6 +3,7 @@ import {EntryComponent} from "./entry/entry.component";
 import {MainComponent} from "./main/main.component";
 import {ServerConnector} from "./ServerConnector";
 import {NgClass} from "@angular/common";
+import {USERNAME_KEY} from "../constants";
 
 @Component({
     selector: 'app-root',
@@ -14,9 +15,14 @@ export class AppComponent {
 
     private serverConnector = inject(ServerConnector);
 
-    username?: string;
+    username?: string = localStorage.getItem(USERNAME_KEY) ?? undefined;
 
     get connected(): boolean {
         return this.serverConnector.connected;
+    }
+
+    logOut() {
+        localStorage.removeItem(USERNAME_KEY);
+        this.username = undefined;
     }
 }

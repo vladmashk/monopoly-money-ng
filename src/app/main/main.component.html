@@ -1,5 +1,5 @@
 <div class="nameAndBalance">
-    <div class="name">{{username}}</div>
+    <div class="name" (click)="logOut.emit()" title="Log out">{{username}}</div>
     <div class="balance">{{formatAmount(userBalance)}}</div>
 </div>
 <app-transfer-to [username]="username" [userBalance]="userBalance"/>
