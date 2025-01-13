@@ -25,8 +25,6 @@ export class MoneyInputComponent {
 
     @Input() label = "Amount";
 
-    @Input() autoFocus = false;
-
     @Input() amount = signal(0);
 
     @Output() amountChange = new EventEmitter<number>();
