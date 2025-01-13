@@ -1,0 +1,41 @@
+:host {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 16px;
+    background-color: #3f96fd;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: 0.5s appear;
+}
+
+:host.disappear {
+    animation: 0.5s disappear;
+}
+
+.icon {
+    fill: white;
+    display: block;
+    width: 20px;
+    animation: 0.5s appearSVG;
+}
+
+@keyframes appear {
+    from {
+        transform: translateY(-110%);
+    }
+}
+
+@keyframes appearSVG {
+    from {
+        visibility: hidden;
+    }
+}
+
+@keyframes disappear {
+    to {
+        transform: translateY(-300px);
+        opacity: 0;
+    }
+}

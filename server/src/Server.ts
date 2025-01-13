@@ -56,7 +56,11 @@ class Server {
 
         this.gameState.transactionsUpdated = (transactions, players) => {
             this.clientConnector.sendEventToAll("TRANSACTIONS_UPDATE", {transactions, players});
-        }
+        };
+
+        this.gameState.receivedFromBank = (recipient, amount) => {
+            this.clientConnector.sendEventToAll("NOTIFICATION", {type: "receive-from-bank", recipient, amount});
+        };
 
         this.clientConnector.startListening();
         console.log("Server started");

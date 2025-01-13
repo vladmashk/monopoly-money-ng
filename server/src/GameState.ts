@@ -63,11 +63,18 @@ export default class GameState {
 
         this.updatePlayersUsingTransaction(transaction);
 
-        this.transactionsUpdated(this.getTransactions(), this.getPlayers());
         this.storeTransactions();
+
+        this.transactionsUpdated(this.getTransactions(), this.getPlayers());
+
+        if (transaction.sender === BANK_USERNAME) {
+            this.receivedFromBank(transaction.recipient, transaction.amount);
+        }
     }
 
     transactionsUpdated(transactions: Transaction[], players: Player[]) {}
+
+    receivedFromBank(recipient: string, amount: number) {}
 
     getTransactions(): Transaction[] {
         return [...this.transactions];

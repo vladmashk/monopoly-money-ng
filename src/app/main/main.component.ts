@@ -5,6 +5,7 @@ import {PlayerListComponent} from "./player-list/player-list.component";
 import {TransactionsListComponent} from "./transactions-list/transactions-list.component";
 import {ServerConnector} from "../ServerConnector";
 import {formatAmount} from "../../util";
+import {NotificationsListComponent} from "./notifications-list/notifications-list.component";
 
 @Component({
   selector: 'app-main',
@@ -12,7 +13,8 @@ import {formatAmount} from "../../util";
         TransferToComponent,
         ReceiveFromComponent,
         PlayerListComponent,
-        TransactionsListComponent
+        TransactionsListComponent,
+        NotificationsListComponent
     ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'

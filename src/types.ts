@@ -25,7 +25,7 @@ export type ClientToServerResponse<E extends ClientToServerEvent> = ReturnType<C
 
 export interface ServerToClientEvents {
     TRANSACTIONS_UPDATE: (payload: {transactions: Transaction[], players: Player[]}) => void,
-    NOTIFICATION: (notification: "TODO") => void // TODO
+    NOTIFICATION: (notification: Notification) => void
 }
 
 export type ServerToClientEvent = keyof ServerToClientEvents;
@@ -46,6 +46,16 @@ export interface Transaction {
 export interface Player {
     name: string,
     balance: number
+}
+
+export type Notification = {
+    type: "receive-from-bank",
+    recipient: string,
+    amount: number
+}
+
+export interface NotificationWithId extends Notification {
+    id: string
 }
 
 // Error types
